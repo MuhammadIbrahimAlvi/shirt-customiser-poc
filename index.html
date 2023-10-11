@@ -131,44 +131,48 @@
         });
 
         uploadImageInput.addEventListener("change", function (e) {
-    if (document.getElementById("show-pocket").checked) {
-        alert("Cannot add image when pocket is shown. Please hide the pocket first.");
-        return; 
-    }
+            if (document.getElementById("show-pocket").checked) {
+                alert("Cannot add an image when the pocket is shown. Please hide the pocket first.");
+                return;
+            }
 
-    const file = e.target.files[0];
+            const file = e.target.files[0];
 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function (event) {
-            const imageUrl = event.target.result;
-            while(pictureForShirt.attributes.length > 0)
-            pictureForShirt.removeAttribute(elem.attributes[0].name);
-            
-            const imgElement = document.createElement("img");
-            imgElement.src = imageUrl;
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    const imageUrl = event.target.result;
 
-            imgElement.style.width = "100%";
-            imgElement.style.height = "100%";
-            
-            textInput.value = "";
-            textInput.disabled = true;
-            textOnShirt.style.display = "none";
-            
-            pictureForShirt.appendChild(imgElement);
-        };
-        reader.readAsDataURL(file);
-    }
-});
+                    const imgElement = document.createElement("img");
+                    imgElement.src = imageUrl;
+                    imgElement.style.width = "100%";
+                    imgElement.style.height = "100%";
 
+                    const existingImage = pictureForShirt.querySelector("img");
+                    if (existingImage) {
+                        existingImage.remove();
+                    }
 
+                    textInput.value = "";
+                    textInput.disabled = true;
+                    textOnShirt.style.display = "none";
 
-
+                    pictureForShirt.appendChild(imgElement);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
 
 
 
 
 
+
+
+
+
+
+        // Toggle pocket visibility when the button is clicked
         togglePocketButton.addEventListener("click", function () {
             if (document.getElementById("show-pocket").checked) {
                 pocket.style.display = "block";
