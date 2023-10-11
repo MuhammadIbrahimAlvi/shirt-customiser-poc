@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shirt Customizer</title>
+    <style>
+        #shirt {
+            width: 500px;
+            height: 500px;
+            background-color: white;
+            border: 2px solid #ccc;
+            position: relative;
+        }
+
+        #shirt img {
+            max-width: 100%;
+            max-height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #color-picker {
+            margin-top: 20px;
+        }
+
+        #custom-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            z-index: 2;
+        }
+
+        .circle-class {
+            width: 10%;
+            border-radius: 150px;
+            height: 180px;
+            position: absolute;
+            top: 150px;
+            left: 128px;
+            z-index: 3;
+        }
+
+        .text-class {
+            border: 1px solid transparent;
+            width: 7%;
+            position: absolute;
+            height: 400px;
+            top: 140px;
+            left: 200px;
+            z-index: 2;
+            font-weight: bold;
+            font-size: 24px;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 50px;
+            transform: scale(-1, -1);
+        }
+
+
+
+        .pocket-class {
+            width: 5%;
+            border-radius: 120px;
+            height: 110px;
+            position: absolute;
+            top: 170px;
+            left: 110px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Shirt Customizer</h1>
+    <div id="shirt">
+        <img id="tshirt-backgroundpicture"
+            src="https://ourcodeworld.com/public-media/gallery/gallery-5d5afd3f1c7d6.png" />
+    </div>
+    <div class="circle-class" id="cirle-id">
+        <!-- Content for the circle -->
+    </div>
+    <div id="color-picker">
+        <label for="shirt-color">Shirt Color:</label>
+        <select id="shirt-color">
+            <option value="white">White</option>
+            <option value="red">Red</option>
+            <option value="blue">Blue</option>
+            <option value="green">Green</option>
+        </select>
+    </div>
+    <input type="text" id="text-input" placeholder="Enter Text">
+    <button id="insert-text">Insert Text</button>
+    <div class="text-class" id="text-container">
+
+    </div>
+
+    <div class="pocket-class" id="pocket">
+        <!-- Content for the pocket -->
+        <img src="pocket1.png" width="100%" height="100%" />
+    </div>
+
+    <div>
+        <label for="upload-image">Upload Image:</label>
+        <input type="file" id="upload-image">
+    </div>
+
+    <input type="radio" id="show-pocket" name="pocket-visibility" value="visible" checked>
+    <label for="show-pocket">Show Pocket</label>
+
+    <input type="radio" id="hide-pocket" name="pocket-visibility" value="hidden">
+    <label for="hide-pocket">Hide Pocket</label>
+
+    <button id="toggle-pocket">Toggle Pocket</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js">
+    </script>
+    <script>
+        const shirt = document.getElementById("shirt");
+        const colorPicker = document.getElementById("shirt-color");
+        const uploadImageInput = document.getElementById("upload-image");
+        const pocket = document.getElementById("pocket");
+        const togglePocketButton = document.getElementById("toggle-pocket");
+        const pictureForShirt = document.getElementById("cirle-id");
+        const textOnShirt = document.getElementById("text-container");
+
+        colorPicker.addEventListener("change", function () {
+            shirt.style.backgroundColor = this.value;
+        });
+
+        uploadImageInput.addEventListener("change", function (e) {
+    if (document.getElementById("show-pocket").checked) {
+        alert("Cannot add image when pocket is shown. Please hide the pocket first.");
+        return; 
+    }
+
+    const file = e.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+            const imageUrl = event.target.result;
+            
+            const imgElement = document.createElement("img");
+            imgElement.src = imageUrl;
+
+            imgElement.style.width = "100%";
+            imgElement.style.height = "100%";
+            
+            textInput.value = "";
+            textInput.disabled = true;
+            textOnShirt.style.display = "none";
+            
+            pictureForShirt.appendChild(imgElement);
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+
+
+
+
+
+
+
+
+        togglePocketButton.addEventListener("click", function () {
+            if (document.getElementById("show-pocket").checked) {
+                pocket.style.display = "block";
+            } else {
+                pocket.style.display = "none";
+            }
+        });
+
+        const textContainer = document.getElementById("text-container");
+        const textInput = document.getElementById("text-input");
+        const insertTextButton = document.getElementById("insert-text");
+        const blackColorRadio = document.getElementById("black-color");
+        const whiteColorRadio = document.getElementById("white-color");
+
+        insertTextButton.addEventListener("click", function () {
+            const text = textInput.value;
+
+            const textElement = new fabric.Text(text, {
+                fill: "black",
+                fontSize: 24,
+                left: 0,
+                top: 0,
+                selectable: true
+            });
+
+            textOnShirt.innerText = text
+
+        });
+    </script>
+</body>
+
+</html>
