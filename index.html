@@ -142,6 +142,8 @@
         const reader = new FileReader();
         reader.onload = function (event) {
             const imageUrl = event.target.result;
+            while(pictureForShirt.attributes.length > 0)
+            pictureForShirt.removeAttribute(elem.attributes[0].name);
             
             const imgElement = document.createElement("img");
             imgElement.src = imageUrl;
